@@ -1,0 +1,495 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-sans: var(--font-plus-jakarta), "Plus Jakarta Sans", -apple-system,
+      BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-serif: var(--font-lora), Lora, Georgia, serif;
+    /* CommonGround product tokens — sync with brand/colors.json */
+    --cg-primary: #059669;
+    --cg-primary-strong: #047857;
+    --cg-primary-soft: #10b981;
+    --cg-primary-container: #d1fae5;
+    --cg-on-primary-container: #064e3b;
+    --cg-canvas: #f4f7f5;
+    --cg-surface: #ffffff;
+    --cg-surface-muted: #ecf3ef;
+    --cg-surface-variant: #e4ede8;
+    --cg-border: #d3e0d9;
+    --cg-hairline: #c5d4cb;
+    --cg-text-primary: #0c1a14;
+    --cg-text-secondary: #5b6b63;
+    --cg-text-tertiary: #84948b;
+    color-scheme: light;
+  }
+
+  .dark {
+    --cg-primary: #34d399;
+    --cg-primary-strong: #6ee7b7;
+    --cg-primary-container: #065f46;
+    --cg-on-primary-container: #d1fae5;
+    --cg-canvas: #0b1411;
+    --cg-surface: #15201c;
+    --cg-surface-muted: #1f2e28;
+    --cg-surface-variant: #1f2e28;
+    --cg-border: #2a3b34;
+    --cg-hairline: #2a3b34;
+    --cg-text-primary: #f8fafc;
+    --cg-text-secondary: #cbd5e1;
+    --cg-text-tertiary: #94a3b8;
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: var(--font-sans);
+  }
+
+  /* Native select arrows sit flush to the edge on macOS — use inset chevrons */
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2378716c' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 0.9rem;
+    /* Beat Tailwind px-* utilities so the chevron isn’t flush to the border */
+    padding-right: 2.25rem !important;
+  }
+
+  .dark select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a8a29e' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
+  select option {
+    background-color: #ffffff;
+    color: #1c1917;
+  }
+
+  .dark select option {
+    background-color: #1c1917;
+    color: #f5f5f4;
+  }
+
+  select::-ms-expand {
+    display: none;
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-plus-jakarta), "Plus Jakarta Sans", ui-sans-serif,
+    system-ui, sans-serif;
+  --font-editorial: var(--font-lora), Lora, Georgia, serif;
+  /* Between stone-800 (#292524) and stone-900 (#1c1917) — used across landing dark UI */
+  --color-stone-850: #231f1c;
+  /* Product brand aliases (logged-in portals + match native apps) */
+  --color-cg-primary: var(--cg-primary);
+  --color-cg-primary-strong: var(--cg-primary-strong);
+  --color-cg-canvas: var(--cg-canvas);
+  --color-cg-surface: var(--cg-surface);
+  --color-cg-border: var(--cg-border);
+  --color-cg-text: var(--cg-text-primary);
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Legacy camelCase alias used by volunteer/leader screens */
+.animate-fadeIn {
+  animation: fade-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes backdrop-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-backdrop {
+  animation: backdrop-fade 0.2s ease-out both;
+  background: rgba(28, 25, 23, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+/*
+ * Role portals (volunteer / leader / organiser) — mint paper + emerald brand
+ * (matches Android/iOS). Landing keeps stone and is outside this class.
+ * Slate utility classes are remapped so existing markup picks up mint neutrals.
+ */
+.cg-role-portal {
+  color: var(--cg-text-primary);
+  background-color: var(--cg-canvas);
+}
+
+/* Light: cool slate utilities → mint paper / forest text */
+.cg-role-portal :where(
+  .bg-slate-50,
+  .bg-slate-50\/80,
+  .bg-slate-100,
+  .bg-slate-100\/60,
+  .bg-slate-100\/80
+) {
+  background-color: var(--cg-canvas);
+}
+
+.cg-role-portal :where(.bg-slate-50\/70, .bg-slate-50\/60, .bg-slate-50\/50, .bg-slate-50\/40) {
+  background-color: color-mix(in srgb, var(--cg-canvas) 85%, white);
+}
+
+.cg-role-portal :where(.text-slate-900, .text-slate-800) {
+  color: var(--cg-text-primary);
+}
+
+.cg-role-portal :where(.text-slate-700, .text-slate-600) {
+  color: var(--cg-text-secondary);
+}
+
+.cg-role-portal :where(.text-slate-500, .text-slate-400) {
+  color: var(--cg-text-tertiary);
+}
+
+.cg-role-portal :where(.border-slate-100, .border-slate-200, .border-slate-200\/60, .border-slate-300) {
+  border-color: var(--cg-border);
+}
+
+.cg-role-portal :where(
+  .hover\:bg-slate-50:hover,
+  .hover\:bg-slate-50\/70:hover,
+  .hover\:bg-slate-100:hover,
+  .hover\:bg-slate-100\/80:hover
+) {
+  background-color: var(--cg-surface-muted);
+}
+
+/* Dark: forest surfaces (not cool slate-950) */
+.dark .cg-role-portal :where(.bg-white, .bg-white\/95, .bg-white\/90, .bg-white\/80) {
+  background-color: var(--cg-surface);
+}
+
+.dark .cg-role-portal :where(
+  .bg-slate-50,
+  .bg-slate-50\/80,
+  .bg-slate-50\/70,
+  .bg-slate-50\/60,
+  .bg-slate-50\/50,
+  .bg-slate-50\/40,
+  .bg-slate-100,
+  .bg-slate-100\/60,
+  .bg-slate-100\/30,
+  .bg-slate-950
+) {
+  background-color: var(--cg-surface-muted);
+}
+
+.dark .cg-role-portal :where(.bg-slate-200, .bg-slate-200\/70, .bg-slate-200\/60, .bg-slate-800, .bg-slate-800\/80) {
+  background-color: var(--cg-surface-variant);
+}
+
+/* Pastel tint surfaces → deep tinted panels */
+.dark .cg-role-portal :where(
+  .bg-emerald-50,
+  .bg-emerald-50\/80,
+  .bg-emerald-50\/70,
+  .bg-emerald-50\/60,
+  .bg-emerald-50\/50,
+  .bg-emerald-100,
+  .bg-emerald-100\/80,
+  .bg-emerald-100\/60
+) {
+  background-color: rgb(2 44 34 / 0.78);
+}
+
+.dark .cg-role-portal :where(
+  .bg-amber-50,
+  .bg-amber-50\/80,
+  .bg-amber-50\/70,
+  .bg-amber-50\/60,
+  .bg-amber-50\/50,
+  .bg-amber-100,
+  .bg-amber-100\/80,
+  .bg-amber-100\/60,
+  .bg-yellow-50,
+  .bg-yellow-100
+) {
+  background-color: rgb(69 26 3 / 0.72);
+}
+
+.dark .cg-role-portal :where(
+  .bg-orange-50,
+  .bg-orange-50\/70,
+  .bg-orange-100
+) {
+  background-color: rgb(67 20 7 / 0.72);
+}
+
+.dark .cg-role-portal :where(
+  .bg-blue-50,
+  .bg-blue-50\/70,
+  .bg-blue-50\/60,
+  .bg-blue-50\/50,
+  .bg-blue-100,
+  .bg-sky-50,
+  .bg-sky-100,
+  .bg-indigo-50,
+  .bg-indigo-100,
+  .bg-purple-50,
+  .bg-purple-100,
+  .bg-violet-50,
+  .bg-violet-100
+) {
+  background-color: rgb(23 37 84 / 0.78);
+}
+
+.dark .cg-role-portal :where(
+  .bg-fuchsia-50,
+  .bg-fuchsia-100,
+  .bg-pink-50,
+  .bg-pink-100
+) {
+  background-color: rgb(74 4 78 / 0.65);
+}
+
+.dark .cg-role-portal :where(
+  .bg-rose-50,
+  .bg-rose-50\/70,
+  .bg-rose-100,
+  .bg-red-50,
+  .bg-red-100
+) {
+  background-color: rgb(69 10 10 / 0.7);
+}
+
+.dark .cg-role-portal :where(
+  .bg-teal-50,
+  .bg-teal-50\/60,
+  .bg-teal-100,
+  .bg-cyan-50,
+  .bg-cyan-100
+) {
+  background-color: rgb(4 47 46 / 0.72);
+}
+
+/* Cream certificate canvases (hex backgrounds) */
+.dark .cg-role-portal :where(.bg-\[\#faf8f5\], .bg-\[\#FAF9F5\], .bg-\[\#FAF8F5\]) {
+  background-color: var(--cg-surface) !important;
+  color: var(--cg-text-primary);
+}
+
+/* Text */
+.dark .cg-role-portal :where(.text-slate-900, .text-slate-800, .text-slate-100) {
+  color: var(--cg-text-primary);
+}
+
+.dark .cg-role-portal :where(.text-slate-700, .text-slate-600) {
+  color: var(--cg-text-secondary);
+}
+
+.dark .cg-role-portal :where(.text-slate-500, .text-slate-400) {
+  color: var(--cg-text-tertiary);
+}
+
+.dark .cg-role-portal :where(.text-emerald-950, .text-emerald-900, .text-emerald-800) {
+  color: #a7f3d0;
+}
+
+.dark .cg-role-portal :where(.text-emerald-700, .text-emerald-600) {
+  color: #6ee7b7;
+}
+
+.dark .cg-role-portal :where(.text-amber-950, .text-amber-900, .text-amber-800, .text-yellow-900, .text-yellow-800) {
+  color: #fde68a;
+}
+
+.dark .cg-role-portal :where(.text-amber-700, .text-amber-600, .text-yellow-700) {
+  color: #fcd34d;
+}
+
+.dark .cg-role-portal :where(.text-orange-950, .text-orange-900, .text-orange-800) {
+  color: #fed7aa;
+}
+
+.dark .cg-role-portal :where(.text-orange-700, .text-orange-600) {
+  color: #fdba74;
+}
+
+.dark .cg-role-portal :where(
+  .text-blue-950,
+  .text-blue-900,
+  .text-blue-800,
+  .text-indigo-900,
+  .text-indigo-800,
+  .text-purple-900,
+  .text-purple-800,
+  .text-sky-900,
+  .text-sky-800
+) {
+  color: #c7d2fe;
+}
+
+.dark .cg-role-portal :where(
+  .text-blue-700,
+  .text-blue-600,
+  .text-indigo-700,
+  .text-indigo-600,
+  .text-sky-700,
+  .text-sky-600
+) {
+  color: #a5b4fc;
+}
+
+.dark .cg-role-portal :where(.text-fuchsia-900, .text-fuchsia-800, .text-pink-900, .text-pink-800) {
+  color: #f5d0fe;
+}
+
+.dark .cg-role-portal :where(.text-fuchsia-700, .text-fuchsia-600) {
+  color: #f0abfc;
+}
+
+.dark .cg-role-portal :where(.text-rose-900, .text-rose-800, .text-red-900, .text-red-800) {
+  color: #fecaca;
+}
+
+.dark .cg-role-portal :where(.text-rose-700, .text-rose-600, .text-red-700, .text-red-600) {
+  color: #fca5a5;
+}
+
+.dark .cg-role-portal :where(.text-teal-900, .text-teal-800, .text-teal-700, .text-cyan-800, .text-cyan-700) {
+  color: #99f6e4;
+}
+
+/* Borders */
+.dark .cg-role-portal :where(.border-slate-100, .border-slate-200, .border-slate-200\/60, .border-slate-300, .border-slate-600, .border-slate-700) {
+  border-color: var(--cg-border);
+}
+
+.dark .cg-role-portal :where(
+  .border-emerald-100,
+  .border-emerald-200,
+  .border-emerald-200\/60,
+  .border-emerald-200\/80,
+  .border-emerald-300
+) {
+  border-color: #065f46;
+}
+
+.dark .cg-role-portal :where(
+  .border-amber-100,
+  .border-amber-200,
+  .border-amber-300,
+  .border-amber-400,
+  .border-yellow-200,
+  .border-yellow-300,
+  .border-orange-200,
+  .border-orange-300,
+  .border-blue-100,
+  .border-blue-200,
+  .border-sky-200,
+  .border-sky-300,
+  .border-indigo-100,
+  .border-indigo-200,
+  .border-indigo-300,
+  .border-rose-100,
+  .border-rose-200,
+  .border-rose-300,
+  .border-red-100,
+  .border-red-200,
+  .border-teal-100,
+  .border-teal-200,
+  .border-purple-100,
+  .border-purple-200,
+  .border-purple-300,
+  .border-fuchsia-200,
+  .border-fuchsia-300
+) {
+  border-color: #475569;
+}
+
+.dark .cg-role-portal :where(.divide-slate-100, .divide-slate-200) > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--cg-border);
+}
+
+/* Hovers */
+.dark .cg-role-portal :where(
+  .hover\:bg-slate-50:hover,
+  .hover\:bg-slate-50\/70:hover,
+  .hover\:bg-slate-100:hover,
+  .hover\:bg-slate-100\/80:hover,
+  .hover\:bg-slate-200:hover,
+  .hover\:bg-slate-800:hover,
+  .hover\:bg-slate-800\/80:hover
+) {
+  background-color: var(--cg-surface-variant);
+}
+
+.dark .cg-role-portal :where(
+  .hover\:bg-emerald-50:hover,
+  .hover\:bg-emerald-50\/50:hover,
+  .hover\:bg-emerald-50\/60:hover,
+  .hover\:bg-emerald-100:hover
+) {
+  background-color: rgb(6 78 59 / 0.45);
+}
+
+.dark .cg-role-portal :where(
+  .hover\:bg-amber-50:hover,
+  .hover\:bg-amber-50\/60:hover,
+  .hover\:bg-amber-100:hover,
+  .hover\:bg-amber-100\/60:hover
+) {
+  background-color: rgb(120 53 15 / 0.4);
+}
+
+/* Form controls */
+.dark .cg-role-portal input:where(.bg-slate-50, .bg-white),
+.dark .cg-role-portal textarea:where(.bg-slate-50, .bg-white),
+.dark .cg-role-portal select:where(.bg-slate-50, .bg-white) {
+  background-color: var(--cg-surface-muted);
+  color: var(--cg-text-primary);
+  border-color: var(--cg-border);
+}
+
+.dark .cg-role-portal input::placeholder,
+.dark .cg-role-portal textarea::placeholder {
+  color: var(--cg-text-tertiary);
+}
+
+/* Filter / segmented control: selected white pill on mint track → clearer contrast */
+.dark .cg-role-portal :where(.bg-slate-100, .bg-slate-100\/60) :where(.bg-white) {
+  background-color: var(--cg-surface-variant);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.5);
+}
